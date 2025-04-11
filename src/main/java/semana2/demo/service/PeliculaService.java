@@ -25,4 +25,12 @@ public class PeliculaService {
     public Pelicula obtenerPeliculaId(Long id){
         return repositorio.findById(id).orElseThrow(() -> new PeliculaNotFoundException(id));
     }
+
+    public Pelicula guardarPelicula(Pelicula pelicula){
+        return repositorio.save(pelicula);
+    }
+
+    public void eliminar(Long id){
+        repositorio.deleteById(id);
+    }
 }

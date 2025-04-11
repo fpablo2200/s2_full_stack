@@ -13,9 +13,15 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
+
 
 
 @RestController
@@ -48,6 +54,31 @@ public class PeliculaController {
     public Pelicula obtenerPorId(@PathVariable Long id) {
 
         return peliculaService.obtenerPeliculaId(id);
+    }
+
+    @PostMapping
+    public Pelicula gdrPelicula(@RequestBody Pelicula pelicula) {
+        
+        return peliculaService.guardarPelicula(pelicula);
+    }
+    
+    @PutMapping("/{id}")
+    public Pelicula actualizarPelicula(@PathVariable Long id, @RequestBody Pelicula pelicula) {
+        Pelicula peliculaencontrada = peliculaService.obtenerPeliculaId(id);
+        if(peliculaencontrada != null){
+            peliculaencontrada.setTitulo(pelicula.getTitulo());
+            peliculaencontrada.setAno(pelicula.getAno());
+            peliculaencontrada.setDirector(pelicula.getDirector());
+            peliculaencontrada.setGenero(pelicula.getGenero());
+            peliculaencontrada.setSinopsis(pelicula.getSinopsis());
+            return peliculaService.guardarPelicula(peliculaencontrada);
+        }
+        return null;
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminarRegistro(@PathVariable Long id){
+        peliculaService.eliminar(id);
     }
 
 
